@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Auto Click Screenshot",
+  "version": "1.0",
+  "description": "Capture screenshots with timestamps",
+  "permissions": ["activeTab", "downloads", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/html2canvas.min.js", "content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}
