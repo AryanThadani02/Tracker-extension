@@ -3,7 +3,7 @@
   "name": "Auto Click Screenshot",
   "version": "1.0",
   "description": "Capture screenshots with timestamps",
-  "permissions": ["activeTab", "downloads", "scripting"],
+  "permissions": ["activeTab", "downloads", "scripting", "storage"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
@@ -15,5 +15,8 @@
   "background": {
     "service_worker": "background.js",
     "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html"
   }
 }

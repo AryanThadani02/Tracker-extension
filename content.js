@@ -1,8 +1,22 @@
 let isCapturing = false;
 
-document.addEventListener('click', function (e) {
-  if (!isCapturing && chrome.runtime?.id) {  // Check if extension context is valid
-    captureScreen();
+// Check if current site is allowed
+function isAllowedDomain() {
+  return new Promise((resolve) => {
+    const currentDomain = window.location.hostname.replace('www.', '');
+    chrome.storage.sync.get(['allowedDomains'], function (result) {
+      const allowedDomains = result.allowedDomains || [];
+      resolve(allowedDomains.some(domain => currentDomain.includes(domain)));
+    });
+  });
+}
+
+document.addEventListener('click', async function (e) {
+  if (!isCapturing && chrome.runtime?.id) {
+    const allowed = await isAllowedDomain();
+    if (allowed) {
+      captureScreen();
+    }
   }
 });
 
