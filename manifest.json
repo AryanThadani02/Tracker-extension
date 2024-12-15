@@ -3,7 +3,7 @@
   "name": "Auto Click Screenshot",
   "version": "1.0",
   "description": "Capture screenshots with timestamps",
-  "permissions": ["activeTab", "downloads", "scripting", "storage"],
+  "permissions": ["activeTab", "downloads", "scripting", "storage", "tabs"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {

@@ -14,42 +14,24 @@ document.addEventListener('click', async function (e) {
   if (!isCapturing && chrome.runtime?.id) {
     const allowed = await isAllowedDomain();
     if (allowed) {
-      captureScreen();
+      captureFullPage();
     }
   }
 });
 
-function captureScreen() {
+function captureFullPage() {
   try {
     isCapturing = true;
-    const isYoutube = window.location.hostname.includes('youtube.com');
 
-    html2canvas(document.body, {
-      allowTaint: true,
-      useCORS: true,
-      logging: false,
-      scale: 1,
-      foreignObjectRendering: isYoutube, // true for YouTube, false for others
-      backgroundColor: null,
-      removeContainer: true,
-      imageTimeout: 0,
-      onclone: (doc) => {
-        // Only remove video elements, keep iframes for YouTube
-        const elementsToRemove = doc.querySelectorAll('video, canvas');
-        elementsToRemove.forEach(el => el.remove());
-      }
-    }).then(function (canvas) {
-      if (chrome.runtime?.id) {
-        const dataUrl = canvas.toDataURL('image/png', 0.8);
-        chrome.runtime.sendMessage({
-          action: "download",
-          dataUrl: dataUrl
-        });
-      }
-    }).catch(function (error) {
-      console.error('Capture failed:', error);
-    }).finally(() => {
-      isCapturing = false;
+    // Send message to background script to initiate capture
+    chrome.runtime.sendMessage({
+      action: "captureFullPage",
+      totalHeight: Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      ),
+      viewportHeight: window.innerHeight,
+      originalScrollTop: window.scrollY
     });
   } catch (error) {
     console.error('Error in capture:', error);
