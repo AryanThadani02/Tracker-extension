@@ -1,5 +1,7 @@
+// Flag to prevent multiple simultaneous captures
 let isCapturing = false;
 
+// Checks if the current domain is in the list of allowed domains
 function isAllowedDomain() {
   return new Promise((resolve) => {
     const currentDomain = window.location.hostname.replace('www.', '');
@@ -10,6 +12,7 @@ function isAllowedDomain() {
   });
 }
 
+// Listens for clicks and triggers screenshot capture if domain is allowed
 document.addEventListener('click', async function (e) {
   if (!isCapturing && chrome.runtime?.id) {
     const allowed = await isAllowedDomain();
@@ -19,11 +22,11 @@ document.addEventListener('click', async function (e) {
   }
 });
 
+// Prepares page dimensions and sends capture request to background script
 function captureFullPage() {
   try {
     isCapturing = true;
 
-    // Send message to background script to initiate capture
     chrome.runtime.sendMessage({
       action: "captureFullPage",
       totalHeight: Math.max(

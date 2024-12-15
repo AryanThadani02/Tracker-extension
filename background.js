@@ -1,9 +1,11 @@
+// Listens for messages from content script to initiate screenshot capture
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "captureFullPage") {
     captureFullPage(sender.tab.id, message);
   }
 });
 
+// Captures multiple screenshots by scrolling through the page and stores them in an array
 async function captureFullPage(tabId, message) {
   const { totalHeight, viewportHeight, originalScrollTop } = message;
   const images = [];
@@ -49,6 +51,7 @@ async function captureFullPage(tabId, message) {
   }
 }
 
+// Merges multiple screenshots into one image and downloads it with a timestamp filename
 async function mergeAndDownload(images) {
   if (!images.length) {
     console.error('No images to merge');
