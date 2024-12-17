@@ -3,18 +3,24 @@
   "name": "Auto Click Screenshot",
   "version": "1.0",
   "description": "Capture screenshots with timestamps",
-  "permissions": ["activeTab", "downloads", "scripting", "storage", "tabs"],
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "scripting",
+    "storage",
+    "tabs",
+    "notifications"
+  ],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "js": ["dist/content.js"],
       "run_at": "document_end"
     }
   ],
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "dist/background.js"
   },
   "action": {
     "default_popup": "popup.html"

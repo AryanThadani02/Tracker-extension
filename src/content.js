@@ -41,3 +41,35 @@ function captureFullPage() {
     isCapturing = false;
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Add screenshot button or trigger
+  const button = document.createElement('button');
+  button.textContent = 'Take Screenshot';
+  button.style.position = 'fixed';
+  button.style.top = '10px';
+  button.style.right = '10px';
+  button.style.zIndex = '10000';
+  document.body.appendChild(button);
+
+  button.addEventListener('click', () => {
+    console.log('Screenshot button clicked');
+    const totalHeight = document.documentElement.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    const originalScrollTop = window.scrollY;
+
+    console.log('Sending message to background:', {
+      action: 'captureFullPage',
+      totalHeight,
+      viewportHeight,
+      originalScrollTop
+    });
+
+    chrome.runtime.sendMessage({
+      action: 'captureFullPage',
+      totalHeight,
+      viewportHeight,
+      originalScrollTop
+    });
+  });
+});

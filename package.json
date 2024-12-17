@@ -1,0 +1,16 @@
+{
+  "name": "website-update-tracker-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension for website tracking",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.485.0",
+    "aws-cli": "^0.0.2"
+  },
+  "devDependencies": {
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
